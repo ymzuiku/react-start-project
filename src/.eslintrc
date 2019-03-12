@@ -1,0 +1,83 @@
+{
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "jest": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/heading-has-content": 0,
+    "import/order": 0,
+    "no-unused-expressions": 0,
+    "no-underscore-dangle": 0,
+    "prettier/prettier": "error",
+    "prefer-template": "off",
+    "indent": 0,
+    "func-names": "off",
+    "object-curly-newline": 0,
+    "no-confusing-arrow": 0,
+    "function-paren-newline": 0,
+    "no-restricted-syntax": 0,
+    "guard-for-in": 0,
+    "no-mixed-operators": 0,
+    "consistent-return": 0,
+    "no-plusplus": 0,
+    "no-undefined": 2,
+    "no-continue": 0,
+    "no-void": 0,
+    "require-await": 2,
+    "react/sort-comp": 0,
+    "no-alert": 0,
+    "max-len": 0,
+    "arrow-body-style": 0,
+    "class-methods-use-this": 0,
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": false,
+        "array": false
+      }
+    ],
+    "jsx-a11y/click-events-have-key-events": 0,
+    "arrow-parens": 0,
+    "no-param-reassign": 0,
+    "no-throw-literal": 0,
+    "dot-notation": 0,
+    "no-return-assign": "off",
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/require-default-props": 0,
+    "react/no-find-dom-node": 0,
+    "react/sort-prop-types": 0,
+    "react/jsx-sort-props": 0,
+    "react/jsx-key": 2,
+    "react/prop-types": 0,
+    "react/prefer-stateless-function": 0,
+    "react/destructuring-assignment": 0,
+    "react/jsx-one-expression-per-line": "off",
+    "react/forbid-prop-types": [
+      2,
+      {
+        "forbid": [
+          "any"
+        ]
+      }
+    ],
+    "newline-after-var": 1
+  }
+}

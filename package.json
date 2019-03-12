@@ -1,0 +1,202 @@
+{
+  "name": "react-start-project",
+  "version": "0.0.1",
+  "description": "React Start Project",
+  "private": true,
+  "scripts": {
+    "reload-img": "auto-require-files src/assets index",
+    "deploy": "jest --ci && yarn build && bash scripts/deploy.sh root@host deploy",
+    "start": "cross-env node scripts/start.js",
+    "build": "cross-env node --max-old-space-size=2048 scripts/build.js",
+    "dll": "cross-env DEV=true BUILD_DLL=true node scripts/build.js",
+    "dll-prod": "cross-env BUILD_DLL=true node scripts/build.js",
+    "lib": "cross-env BUILD_LIB=true node scripts/build.js",
+    "lint-ci": "lint-staged",
+    "test": "node scripts/test.js"
+  },
+  "dll_react": {
+    "react": true
+  },
+  "dll_dom": {
+    "react-dom": true
+  },
+  "dependencies": {
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.6",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@svgr/webpack": "2.4.1",
+    "auto-require-files": "^1.0.11",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "23.6.0",
+    "babel-loader": "8.0.4",
+    "babel-plugin-module-resolver": "^3.1.3",
+    "babel-plugin-named-asset-import": "^0.3.0",
+    "babel-preset-react-app": "^7.0.0",
+    "bfj": "6.1.1",
+    "case-sensitive-paths-webpack-plugin": "2.1.2",
+    "chalk": "2.4.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "1.0.0",
+    "dotenv": "6.0.0",
+    "dotenv-expand": "4.2.0",
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-config-react-app": "^3.0.6",
+    "eslint-loader": "2.1.1",
+    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "7.11.1",
+    "file-loader": "2.0.0",
+    "fork-ts-checker-webpack-plugin-alt": "0.4.14",
+    "fs-extra": "7.0.0",
+    "html-webpack-include-assets-plugin": "^1.0.7",
+    "html-webpack-plugin": "4.0.0-alpha.2",
+    "husky": "^1.3.1",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "23.6.0",
+    "jest-pnp-resolver": "1.0.1",
+    "jest-resolve": "23.6.0",
+    "less-loader": "^4.1.0",
+    "lint-staged": "^8.1.3",
+    "mini-css-extract-plugin": "0.4.3",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "pnp-webpack-plugin": "1.1.0",
+    "postcss-flexbugs-fixes": "4.1.0",
+    "postcss-loader": "3.0.0",
+    "postcss-preset-env": "6.3.1",
+    "postcss-safe-parser": "4.0.1",
+    "prettier": "^1.16.2",
+    "prettier-eslint-cli": "^4.7.1",
+    "react-app-polyfill": "^0.2.0",
+    "react-dev-utils": "^7.0.1",
+    "resolve": "1.8.1",
+    "sass-loader": "7.1.0",
+    "style-loader": "0.23.0",
+    "terser-webpack-plugin": "1.1.0",
+    "url-loader": "1.1.1",
+    "webpack": "4.19.1",
+    "webpack-dev-server": "3.1.14",
+    "webpack-manifest-plugin": "2.0.4",
+    "webpack-node-externals": "^1.7.2",
+    "workbox-webpack-plugin": "3.6.3"
+  },
+  "prettier": {
+    "useTabs": false,
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "arrowParens": "avoid",
+    "parser": "babel",
+    "proseWrap": "preserve"
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "strict": 0
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-ci",
+      "pre-push": "yarn lint-ci"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier-eslint --write",
+      "git add",
+      "eslint"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "resolver": "jest-pnp-resolver",
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ]
+  },
+  "babel-README": "此 babel 仅用于 jest",
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-named-asset-import",
+        {
+          "loaderMap": {
+            "svg": {
+              "ReactComponent": "@svgr/webpack?-prettier,-svgo![path]"
+            }
+          }
+        }
+      ],
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "src": "./src"
+          }
+        }
+      ]
+    ]
+  }
+}
