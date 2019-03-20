@@ -26,7 +26,10 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const nodeExternals = require('webpack-node-externals');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+// Is use analyzer
+const shouldBuildAnalyzer = process.env.ANA === 'true';
 // Is build the dll
 const shouldBuildDll = process.env.BUILD_DLL === 'true';
 // Is build the lib
@@ -42,7 +45,7 @@ const shouldUseDll = isOnlyBuildJS ? false : process.env.USE_DLL !== 'false';
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 // If only build Javascript, need make Source Map
-const shouldUseSourceMap = process.env.DEV === 'true' ? true : process.env.GENERATE_SOURCEMAP !== 'false';
+const shouldUseSourceMap = isOnlyBuildJS ? true : process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
@@ -182,6 +185,8 @@ module.exports = function(webpackEnv) {
     // This means they will be the "root" imports that are included in JS bundle.
     ...(shouldBuildLib && {
       externals: [
+        /^react$/,
+        /^react-dom$/,
         nodeExternals(),
         // example src/ExampleComponents/ExampleButton -> ./ExampleButton
         // function(context, request, callback) {
@@ -217,6 +222,7 @@ module.exports = function(webpackEnv) {
         ].filter(Boolean),
     output: {
       ...(isOnlyBuildJS && { library: '[name]' }),
+      ...(shouldBuildLib && { libraryTarget: 'commonjs2' }),
       // The build folder.
       path: shouldBuildDll ? dllDirPath : isEnvProduction ? paths.appBuild : undefined,
       // Add /* filename */ comments to generated require()s in the output.
@@ -259,6 +265,8 @@ module.exports = function(webpackEnv) {
               ecma: 8,
             },
             compress: {
+              // drop_debuger: isEnvProduction,
+              drop_console: isEnvProduction,
               ecma: 5,
               warnings: false,
               // Disabled because of an issue with Uglify breaking seemingly valid code:
@@ -313,13 +321,24 @@ module.exports = function(webpackEnv) {
       ...(!isOnlyBuildJS && {
         splitChunks: {
           chunks: 'all',
-          name: false,
+          minChunks: 2,
+          name: isEnvDevelopment ? 'commons' : false,
+          cacheGroups: {
+            vendor_modules: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendor_modules',
+              priority: -10,
+            },
+            vendor_packages: {
+              test: /packages/,
+              name: 'vendor_packages',
+            },
+          },
         },
       }),
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       runtimeChunk: isOnlyBuildJS ? false : true,
-
     },
     resolve: {
       // This allows you to set a fallback for where Webpack should look for modules.
@@ -340,8 +359,18 @@ module.exports = function(webpackEnv) {
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-        'src': path.resolve(__dirname, '../src'),
-        'packages': path.resolve(__dirname, '../src/packages'),
+        'antd/style': './node_modules/antd/es/style',
+        font: path.resolve(__dirname, '../src/lib/font'),
+        lvt_components: path.resolve(__dirname, '../src/lvt_components'),
+        locales: path.resolve(__dirname, '../src/locales'),
+        pages: path.resolve(__dirname, '../src/pages'),
+        lib: path.resolve(__dirname, '../src/lib'),
+        tmp: path.resolve(__dirname, '../.tmp/lib'),
+        common: path.resolve(__dirname, '../src/common'),
+        components: path.resolve(__dirname, '../node_modules/germa-pc'),
+        src: path.resolve(__dirname, '../src'),
+        'react-native': 'react-native-web',
+        packages: path.resolve(__dirname, '../src/packages'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -371,7 +400,7 @@ module.exports = function(webpackEnv) {
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
         {
-          test: shouldESLint ? /\.(js|mjs|jsx)$/ : /\.(always_eslint)/,
+          test: shouldESLint && isEnvDevelopment ? /\.(js|mjs|jsx)$/ : /\.(always_eslint)/,
           enforce: 'pre',
           use: [
             {
@@ -405,7 +434,7 @@ module.exports = function(webpackEnv) {
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               // include: shouldBuildDll ? [/germa-pc/, paths.appSrc] : paths.appSrc,
-              include: [/germa-pc/, paths.appSrc],
+              include: [paths.appSrc],
               loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
@@ -576,6 +605,7 @@ module.exports = function(webpackEnv) {
     },
     plugins: [
       // before run project, build dll.js
+      shouldBuildAnalyzer && new BundleAnalyzerPlugin(),
       buildDllPlugin,
       // project use dll.js
       ...useDllReferencePlugin,
