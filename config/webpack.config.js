@@ -360,17 +360,9 @@ module.exports = function(webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'antd/style': './node_modules/antd/es/style',
-        font: path.resolve(__dirname, '../src/lib/font'),
-        lvt_components: path.resolve(__dirname, '../src/lvt_components'),
-        locales: path.resolve(__dirname, '../src/locales'),
-        pages: path.resolve(__dirname, '../src/pages'),
-        lib: path.resolve(__dirname, '../src/lib'),
-        tmp: path.resolve(__dirname, '../.tmp/lib'),
-        common: path.resolve(__dirname, '../src/common'),
-        components: path.resolve(__dirname, '../node_modules/germa-pc'),
         src: path.resolve(__dirname, '../src'),
-        'react-native': 'react-native-web',
         packages: path.resolve(__dirname, '../src/packages'),
+        'react-native': 'react-native-web',
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
