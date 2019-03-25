@@ -2479,11 +2479,11 @@ export default connect(
 粘贴此 shell 至终端, 并且修改 `<your-project>` 为需要创建的项目名:
 
 ```sh
-react-project-gui(){
-  git clone -o react-project-gui -b master --single-branch https://github.com/ymzuiku/react-project-gui $1 &&
+react-start-project(){
+  git clone -o react-start-project -b master --single-branch https://github.com/ymzuiku/react-start-project $1 &&
   cd $1 && rm -rf .git && yarn && yarn dll && yarn start
 }
-react-project-gui <your-project>
+react-start-project <your-project>
 ```
 
 Hello React standard:
