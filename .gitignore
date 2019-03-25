@@ -10,6 +10,7 @@
 **/self-proxy.js
 
 # production
+**/*.js.map
 **/build
 **/dist
 **/public/dll
