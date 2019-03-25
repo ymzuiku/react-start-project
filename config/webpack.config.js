@@ -359,7 +359,6 @@ module.exports = function(webpackEnv) {
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-        'antd/style': './node_modules/antd/es/style',
         src: path.resolve(__dirname, '../src'),
         packages: path.resolve(__dirname, '../src/packages'),
         'react-native': 'react-native-web',

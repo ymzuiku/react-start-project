@@ -3,6 +3,9 @@
     "airbnb",
     "plugin:prettier/recommended"
   ],
+  "plugins": [
+    "react-hooks"
+  ],
   "parser": "babel-eslint",
   "env": {
     "jest": true,
@@ -52,6 +55,8 @@
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [
       1,
       {

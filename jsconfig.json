@@ -6,22 +6,5 @@
       "src/*": ["src/*"],
       "packages/*": ["src/packages/*"],
     }
-  },
-  "exclude": [
-    "**/node_modules/*",
-    "**/build/*",
-    "**/dist/*",
-    "**/.idea/*",
-    "**/scripts/*",
-    "**/.git/*",
-    "**/__snapshots__/*",
-    "**/.eslintcache",
-    "**/yarn.lock",
-    "**/.cache",
-    "**/public/*",
-    "**/cypress/videos/*",
-    "**/videos",
-    "**/yarn-error.log",
-    "lib/*"
-  ]
+  }
 }

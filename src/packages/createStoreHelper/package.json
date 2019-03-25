@@ -1,9 +1,0 @@
-{
-  "name": "create-store-helper",
-  "version": "0.0.1",
-  "author": "pillar",
-  "dependencies": {
-    "redux": "^4.0.1",
-    "redux-saga": "^0.16.2"
-  }
-}
