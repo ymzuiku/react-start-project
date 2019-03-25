@@ -4,7 +4,6 @@
   "description": "React Start Project",
   "private": true,
   "scripts": {
-    "upng-standard-imgs": "bash scripts/upng.sh standard/imgs",
     "reload-img": "auto-require-files src/assets index",
     "deploy": "jest --ci && yarn build && bash scripts/deploy.sh root@host deploy",
     "start": "cross-env node scripts/start.js",
@@ -23,7 +22,6 @@
     "react-dom": true
   },
   "dependencies": {
-    "gka": "^2.8.5",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1"
