@@ -68,8 +68,6 @@ checkBrowsers(paths.appPath, isInteractive)
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(shouldBuildDll ? path.resolve(__dirname, '../public/dll') : paths.appBuild);
-    // Merge with the public folder
-    !shouldBuildDll && copyPublicFolder();
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -174,6 +172,8 @@ function build(previousFileSizes) {
           .then(() => resolve(resolveArgs))
           .catch(error => reject(new Error(error)));
       }
+      // Merge with the public folder
+      !shouldBuildDll && copyPublicFolder();
       return resolve(resolveArgs);
     });
   });
@@ -189,7 +189,8 @@ function copyPublicFolder() {
     dllFilesAddRamdomId();
   }
   shouldBuildLib && copyPackage();
-  shouldBuildLib && copyLibFiles();
+  shouldBuildLib && libFileCopy();
+  shouldBuildLib && libFileDelete();
 }
 
 /** If copy dll.js, add dll.jd randomId */
@@ -206,26 +207,6 @@ function dllFilesAddRamdomId() {
         console.log(`move ${file} to ${nextFile}`);
       }
     });
-  }
-}
-
-/** copy lib.copy array */
-function copyLibFiles() {
-  for (const k in paths.copyList) {
-    const p = paths.copyList[k];
-    if (fs.existsSync(p)) {
-      fs.copySync(p, paths.appBuild + '/' + k, {
-        dereference: true,
-      });
-    }
-  }
-  if (paths.libFile.delete && paths.libFile.delete.length > 0) {
-    for (let i = 0; i < paths.libFile.delete.length; i++) {
-      const deleteFilePath = path.resolve(paths.appBuild, paths.libFile.delete[i]);
-      if (fs.existsSync(deleteFilePath)) {
-        fs.removeSync(deleteFilePath);
-      }
-    }
   }
 }
 
@@ -252,10 +233,40 @@ function copyPackage() {
 
   // If .libconfig have gitURL, add package.json git urls
   if (paths.libFile.gitURL) {
-    pkg = { ...pkg, ...getGithubURL(paths.libFile.gitURL) };
+    pkg = {
+      name: pkg.name || '',
+      version: pkg.version || '0.0.1',
+      description: pkg.description || '',
+      dependencies: pkg.dependencies || {},
+      ...paths.libFile.package,
+      ...getGithubURL(paths.libFile.gitURL),
+    };
   }
 
   fs.writeJSONSync(path.resolve(__dirname, '../dist/package.json'), pkg, { spaces: 2 });
+}
+
+function libFileCopy() {
+  if (paths.libFile.copy) {
+    for (const fromPath in paths.libFile.copy) {
+      const targetPath = paths.libFile.copy[fromPath];
+      if (fs.existsSync(path.resolve(__dirname, '../', targetPath))) {
+        fs.removeSync(path.resolve(__dirname, '../', targetPath));
+      }
+      fs.copySync(path.resolve(__dirname, '../', fromPath), path.resolve(__dirname, '../', targetPath));
+    }
+  }
+}
+
+function libFileDelete() {
+  if (paths.libFile.delete) {
+    for (let i = 0; i < paths.libFile.delete.length; i++) {
+      const deleteFilePath = path.resolve(__dirname, '../', paths.libFile.delete[i]);
+      if (fs.existsSync(deleteFilePath)) {
+        fs.removeSync(deleteFilePath);
+      }
+    }
+  }
 }
 
 function deleteKeys(target, keys) {
