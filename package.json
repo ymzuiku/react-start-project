@@ -15,11 +15,8 @@
     "lint-ci": "lint-staged",
     "test": "node scripts/test.js"
   },
-  "dll_react": {
-    "react": true,
-    "react-dom": true
-  },
   "dll_react_other": {
+    "react-dom": true,
     "react-router-dom": true
   },
   "dependencies": {

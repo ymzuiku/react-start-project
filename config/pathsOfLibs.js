@@ -55,22 +55,14 @@ if (!libFile.lib || libFile.lib.length === 0) {
   return;
 }
 
-if (!libFile.dontLib) {
-  message('Please set dontLib array in .libconfig.js', true);
-  return;
-}
-
-if (!libFile.copy) {
-  message('Please set copy array in .libconfig.js', true);
-  return;
-}
-
 for (let i = 0; i < libFile.lib.length; i++) {
   libConfig.lib[path.resolve(rootPath, libFile.lib[i])] = true;
 }
 
-for (let i = 0; i < libFile.dontLib.length; i++) {
-  libConfig.dontLib[path.resolve(rootPath, libFile.dontLib[i])] = true;
+if (libFile.dontLib) {
+  for (let i = 0; i < libFile.dontLib.length; i++) {
+    libConfig.dontLib[path.resolve(rootPath, libFile.dontLib[i])] = true;
+  }
 }
 
 // 递归 src/, 如果有 *.lib.js 的文件就添加到lib编译中, 请确保 *.lib.js 不要重名
@@ -80,24 +72,27 @@ for (let i = 0; i < libFile.dontLib.length; i++) {
 
 const entryList = {};
 const copyList = {};
-for (let i = 0; i < libFile.copy.length; i++) {
-  const str = libFile.copy[i];
-  if (Object.prototype.toString.call(str) === '[object Array]' && str.length > 1) {
-    copyList[str[1]] = path.resolve(rootPath, str[0]);
-  } else if (str.search(/\//) > -1) {
-    const list = str.split('/');
-    // 如果最终目录是目录
-    if (str.search(/\/$/ > -1)) {
-      copyList[list[list.length - 2]] = path.resolve(rootPath, str);
+if (libFile.copy) {
+  for (let i = 0; i < libFile.copy.length; i++) {
+    const str = libFile.copy[i];
+    if (Object.prototype.toString.call(str) === '[object Array]' && str.length > 1) {
+      copyList[str[1]] = path.resolve(rootPath, str[0]);
+    } else if (str.search(/\//) > -1) {
+      const list = str.split('/');
+      // 如果最终目录是目录
+      if (str.search(/\/$/ > -1)) {
+        copyList[list[list.length - 2]] = path.resolve(rootPath, str);
+      }
+      // 如果路径是目录, 最终是文件
+      else {
+        copyList[list[list.length - 1]] = path.resolve(rootPath, str);
+      }
+    } else {
+      copyList[str] = path.resolve(rootPath, str);
     }
-    // 如果路径是目录, 最终是文件
-    else {
-      copyList[list[list.length - 1]] = path.resolve(rootPath, str);
-    }
-  } else {
-    copyList[str] = path.resolve(rootPath, str);
   }
 }
+
 function loadAllEnters(rootP) {
   const ignoreFiles = {
     '.DS_Store': true,
