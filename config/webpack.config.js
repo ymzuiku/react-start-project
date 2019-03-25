@@ -324,11 +324,11 @@ module.exports = function(webpackEnv) {
           minChunks: 2,
           name: isEnvDevelopment ? 'commons' : false,
           cacheGroups: {
-            vendor_modules: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendor_modules',
-              priority: -10,
-            },
+            // vendor_modules: {
+            //   test: /[\\/]node_modules[\\/]/,
+            //   name: 'vendor_modules',
+            //   priority: -10,
+            // },
             vendor_packages: {
               test: /packages/,
               name: 'vendor_packages',
