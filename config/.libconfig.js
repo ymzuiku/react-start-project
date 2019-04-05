@@ -1,18 +1,22 @@
 module.exports = {
-  lib: ['src/packages/react-den-form'], // need babel files or dirs
+  lib: ['src/packages/react-den'], // need babel files or dirs
   dontLib: [], // dont babel files or dirs
   copy: {
-    'src/packages/react-den-form': '../src',
-    'dist': '../lib',
+    'README.md': '../README.md',
+    'src/packages/react-den': '../src',
+    dist: '../lib',
     'dist/package.json': '../package.json',
   },
   delete: ['dist', '../lib/package.json'], // after copy builded, delete files
   package: {
-    "main": "lib/index.js",
-    "types": "src/index.d.ts",
-    "dependencies": {
-      "react": "^16.8.4"
+    main: 'lib/index.js',
+    types: 'src/index.d.ts',
+    scripts: {
+      lib: 'cd den-example && yarn lib',
+      start: 'cd den-example && yarn start',
+    },
+    dependencies: {
     },
   },
-  gitURL: 'github.com/ymzuiku/react-den-form',
+  gitURL: 'github.com/ymzuiku/react-den',
 };
