@@ -3,8 +3,7 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
-      "src/*": ["src/*"],
-      "packages/*": ["src/packages/*"],
+      "~/*": ["src/*"],
     }
   }
 }
