@@ -13,12 +13,13 @@
     "node": true
   },
   "rules": {
+    "prettier/prettier": ["error", { "singleQuote": true, "parser": "flow", "trailingComma": "all", "printWidth": 120, "semi": true }],
+    "jsx-a11y/no-autofocus": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/heading-has-content": 0,
     "import/order": 0,
     "no-unused-expressions": 0,
     "no-underscore-dangle": 0,
-    "prettier/prettier": "error",
     "prefer-template": "off",
     "indent": 0,
     "func-names": "off",
@@ -31,6 +32,7 @@
     "consistent-return": 0,
     "no-plusplus": 0,
     "no-undefined": 2,
+    "no-unused-vars": 1,
     "no-continue": 0,
     "no-void": 0,
     "require-await": 2,
@@ -39,6 +41,7 @@
     "max-len": 0,
     "arrow-body-style": 0,
     "class-methods-use-this": 0,
+    "react/no-unused-state": 0,
     "prefer-destructuring": [
       "error",
       {
