@@ -2480,8 +2480,8 @@ export default connect(
 
 ```sh
 react-start-project(){
-  git clone -o react-start-project -b master --single-branch https://github.com/ymzuiku/react-start-project $1 &&
-  cd $1 && rm -rf .git && yarn && yarn dll && yarn start
+  git clone --depth=1 https://github.com/ymzuiku/react-start-project $1 &&
+  cd $1 && rm -rf .git && yarn && yarn start
 }
 react-start-project <your-project>
 ```

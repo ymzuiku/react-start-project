@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from 'react';
-import logo from 'src/assets/logo.svg';
+import logo from '~/assets/logo.svg';
 
 /** 用于演示的 hello world */
 function App() {

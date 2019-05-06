@@ -16,7 +16,7 @@
     "test": "node scripts/test.js"
   },
   "dll_react_other": {
-    "react-router-dom": true
+    "react-router-dom": false
   },
   "dependencies": {
     "react": "^16.8.4",
